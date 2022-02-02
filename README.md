@@ -1,7 +1,4 @@
 - 👋 Hi, I’m @christian-michoal
-- 👀 I’m interested in further developing my cpp skills by contributing to open source projects
-- 🌱 I’m currently learning cpp
-- 💞️ I’m looking to collaborate on open source projects
 - 📫 How to reach me: email - christian.michoal@gmail.com
 
 <!---
