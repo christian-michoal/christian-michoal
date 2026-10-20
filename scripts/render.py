@@ -170,6 +170,9 @@ def build_rows(cfg: dict, s: dict, now: datetime) -> list[dict]:
     else:
         status = ("resident", "purple")
     rows.append(kv("status", status[0], status[1], ("[*]", "blue")))
+    if cfg.get("contact_hint"):
+        # The real address stays as text in the README so it can be copied.
+        rows += [out(), cmd("cat contact.txt"), out((cfg["contact_hint"], "dim"))]
     rows.append({"kind": "end", "segs": prompt})
     return rows
 

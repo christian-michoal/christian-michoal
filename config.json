@@ -11,5 +11,6 @@
     ["31337/tcp", "open|filtered", "unknown", ""]
   ],
   "service_info": "OS: unresolved",
+  "contact_hint": "channel: out of band. see below.",
   "flag": "flag{v13w_s0urc3_1s_a_l1f3styl3}"
 }
