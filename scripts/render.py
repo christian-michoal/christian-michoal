@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the animated terminal SVGs and refresh the README activity log.
+"""Render the animated terminal SVGs and refresh the README timestamp.
 
 Runs in GitHub Actions on a schedule. Needs GITHUB_TOKEN for the GraphQL
 contribution calendar. Pass --sample to render offline with fake data.
@@ -106,33 +106,6 @@ def streaks(days: list[tuple[date, int]]) -> tuple[int, int]:
     return current, longest
 
 
-def activity(events: list[dict], limit: int = 6) -> list[tuple[str, str, str]]:
-    out, seen = [], set()
-    for e in events:
-        kind, payload = e["type"], e.get("payload") or {}
-        if kind == "PushEvent":
-            verb = "pushed to"
-        elif kind == "CreateEvent" and payload.get("ref_type") == "repository":
-            verb = "created"
-        elif kind == "PullRequestEvent" and payload.get("action") in ("opened", "closed"):
-            verb = "merged a PR in" if (payload.get("pull_request") or {}).get("merged") else "opened a PR on"
-        elif kind == "IssuesEvent" and payload.get("action") == "opened":
-            verb = "opened an issue on"
-        elif kind == "ReleaseEvent":
-            verb = "released"
-        elif kind == "ForkEvent":
-            verb = "forked"
-        else:
-            continue
-        key = (e["created_at"][:10], verb, e["repo"]["name"])
-        if key not in seen:
-            seen.add(key)
-            out.append(key)
-        if len(out) >= limit:
-            break
-    return out
-
-
 def stats(data: dict, now: datetime) -> dict:
     current, longest = streaks(data["days"])
     push = next((e for e in data["events"] if e["type"] == "PushEvent"), None)
@@ -142,7 +115,6 @@ def stats(data: dict, now: datetime) -> dict:
         "year_total": sum(c for d, c in data["days"] if d.year == now.year),
         "years": (now - data["created_at"]).days / 365.25,
         "last_push": (push["repo"]["name"].split("/")[-1], push["created_at"][:10]) if push else None,
-        "log": activity(data["events"]),
     }
 
 
@@ -280,14 +252,9 @@ def replace_block(text: str, name: str, content: str) -> str:
     return pattern.sub(lambda m: f"{m.group(1)}\n{content}\n{m.group(2)}", text)
 
 
-def update_readme(s: dict, now: datetime) -> None:
+def update_readme(now: datetime) -> None:
     path = ROOT / "README.md"
-    if s["log"]:
-        lines = [f"{day}  {verb:<19} {repo}" for day, verb, repo in s["log"]]
-    else:
-        lines = ["(no signal)"]
     readme = path.read_text(encoding="utf-8")
-    readme = replace_block(readme, "LOG", "```text\n" + "\n".join(lines) + "\n```")
     readme = replace_block(readme, "UPDATED", f"<sub>last refreshed {now:%Y-%m-%d %H:%M} UTC</sub>")
     path.write_text(readme, encoding="utf-8", newline="\n")
 
@@ -310,8 +277,8 @@ def main() -> None:
     for name, theme in THEMES.items():
         (ROOT / "assets" / f"terminal-{name}.svg").write_text(
             render_svg(rows, theme, cfg), encoding="utf-8", newline="\n")
-    update_readme(s, now)
-    print(f"streak={s['current']} longest={s['longest']} year={s['year_total']} log={len(s['log'])}")
+    update_readme(now)
+    print(f"streak={s['current']} longest={s['longest']} year={s['year_total']}")
 
 
 if __name__ == "__main__":
