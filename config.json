@@ -1,0 +1,15 @@
+{
+  "login": "christian-michoal",
+  "name": "christian",
+  "host": "github",
+  "identity": "uid=?(christian) gid=?(-) groups=[redacted]",
+  "ports": [
+    ["7/tcp", "open", "echo", "returns what it is given"],
+    ["13/tcp", "open", "daytime", "always now"],
+    ["79/tcp", "filtered", "finger", "no such user"],
+    ["113/tcp", "closed", "ident", "declined"],
+    ["31337/tcp", "open|filtered", "unknown", ""]
+  ],
+  "service_info": "OS: unresolved",
+  "flag": "flag{v13w_s0urc3_1s_a_l1f3styl3}"
+}

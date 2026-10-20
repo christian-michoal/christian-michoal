@@ -1,7 +1,24 @@
-- 👋 Hi, I’m @christian-michoal
-- 📫 How to reach me: email - christian.michoal@gmail.com
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/terminal-dark.svg">
+  <img alt="Terminal session: id returns a redacted identity, an nmap scan finds echo, daytime, finger and ident services that reveal little, and ./streak --status shows the current contribution streak." src="assets/terminal-light.svg" width="100%">
+</picture>
 
-<!---
-christian-michoal/christian-michoal is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
+<!-- ZmxhZ3t2MTN3X3MwdXJjM18xc19hX2wxZjNzdHlsM30gLSBuaWNlLiBlbWFpbCBtZSB0aGUgZmxhZyBhbmQgc2F5IGhpLg== -->
+
+### `$ tail -n 6 /var/log/activity`
+
+<!--LOG:START-->
+```text
+(no signal)
+```
+<!--LOG:END-->
+
+### `$ cat contact.txt`
+
+```text
+email   christian.michoal@gmail.com
+```
+
+<!--UPDATED:START-->
+<sub>last refreshed 2026-10-20 17:38 UTC</sub>
+<!--UPDATED:END-->
