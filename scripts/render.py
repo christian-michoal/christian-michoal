@@ -204,10 +204,12 @@ def render_svg(rows: list[dict], theme: dict, cfg: dict) -> str:
             parts.append(svg)
             typing = n * 0.045
             # Cover the command with a background-colored block and shrink it
-            # toward the right edge in n steps, so it looks typed out.
+            # toward the right edge in n steps, so it looks typed out. Use
+            # steps(start): browsers can finish at progress 0.9999..., which
+            # steps(end) rounds down, leaving the last character covered.
             x, w = PAD_X + col * CW, n * CW + 2
             parts.append(f'<rect class="t" x="{x:.1f}" y="{y - FONT}" width="{w:.1f}" height="{LH}" '
-                         f'fill="var(--bg)" style="animation:type {typing:.2f}s steps({n},end) '
+                         f'fill="var(--bg)" style="animation:type {typing:.2f}s steps({n},start) '
                          f'{t + 0.35:.2f}s forwards"/>')
             body.append(f'<g class="l" style="animation-delay:{t:.2f}s">{"".join(parts)}</g>')
             t += 0.35 + typing + 0.3
