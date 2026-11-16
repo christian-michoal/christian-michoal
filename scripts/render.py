@@ -151,14 +151,8 @@ def build_rows(cfg: dict, s: dict, now: datetime) -> list[dict]:
         rows.append(out(("Service Info: ", "dim"), (cfg["service_info"], "fg")))
     rows += [out(("Nmap done: 1 IP address (1 host up) scanned in ", "dim"),
                  (f"{s['years']:.2f} years", "blue")),
-             out()]
-    if cfg.get("research"):
-        rows.append(cmd("ls ~/research"))
-        width = max(len(name) for name, _ in cfg["research"]) + 3
-        for name, note in cfg["research"]:
-            rows.append(out((f"{name}/".ljust(width), "blue"), (f"# {note}", "dim")))
-        rows.append(out())
-    rows.append(cmd("./streak --status"))
+             out(),
+             cmd("./streak --status")]
 
     cur = s["current"]
     rows.append(kv("current streak", f"{cur} day{'s' * (cur != 1)}", "green" if cur else "red"))
@@ -176,6 +170,9 @@ def build_rows(cfg: dict, s: dict, now: datetime) -> list[dict]:
     else:
         status = ("resident", "purple")
     rows.append(kv("status", status[0], status[1], ("[*]", "blue")))
+    if cfg.get("research_hint"):
+        # The links stay in the README so they can be clicked.
+        rows += [out(), cmd("ls ~/research"), out((cfg["research_hint"], "dim"))]
     if cfg.get("contact_hint"):
         # The real address stays as text in the README so it can be copied.
         rows += [out(), cmd("cat contact.txt"), out((cfg["contact_hint"], "dim"))]
