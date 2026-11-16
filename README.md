@@ -5,6 +5,10 @@
 
 <!-- ZmxhZ3t2MTN3X3MwdXJjM18xc19hX2wxZjNzdHlsM30gLSBuaWNlLiBlbWFpbCBtZSB0aGUgZmxhZyBhbmQgc2F5IGhpLg== -->
 
+### `$ ls ~/research`
+
+- [yara-rules](https://github.com/christian-michoal/yara-rules) - YARA detection rules from my malware analysis
+
 ### `$ cat contact.txt`
 
 ```text
